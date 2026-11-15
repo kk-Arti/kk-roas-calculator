@@ -1010,3 +1010,10 @@ select:focus {
   display: inline-block;
   padding: 8px 0;
 }
+
+.how-to {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.875rem;
+  color: var(--grey-2);
+}

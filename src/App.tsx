@@ -187,6 +187,10 @@ export default function App() {
             <p id="roas-hint" className="hint">
               Use ROAS on first orders from new customers. Blended ROAS includes repeat buyers and makes the first order
               look better than it is.
+              <span className="how-to">
+                For Meta: in Shopify Analytics, ask Sidekick for sales from new customers' first orders with UTM source
+                facebook or instagram for the last 30 days. Divide by your Meta spend for the same 30 days.
+              </span>
             </p>
           </section>
 

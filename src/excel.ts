@@ -106,7 +106,7 @@ export async function buildWorkbook(products: Product[], roasRaw: string, target
   rc.alignment = { horizontal: 'center', vertical: 'middle' }
   ws.getRow(6).height = 24
   const hint = ws.getCell('E6')
-  hint.value = 'Use ROAS on first orders from new customers. Blended ROAS includes repeat buyers and makes the first order look better than it is.'
+  hint.value = "Use ROAS on first orders from new customers. For Meta: in Shopify Analytics ask Sidekick for sales from new customers' first orders with UTM source facebook or instagram, last 30 days, then divide by Meta spend for the same days."
   hint.font = { name: FONT, size: 9, italic: true, color: { argb: C.grey } }
   ws.getCell('B7').value = 'Target margin after ads'
   ws.getCell('B7').font = { name: FONT, size: 12, bold: true }
