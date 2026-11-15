@@ -1,6 +1,6 @@
 // Branded Excel export: a live copy of the calculator with the visitor's products and working formulas.
 // Formulas mirror calc.ts and the original KK_Break-even_ROAS_Calculator.xlsx one to one.
-import type { Workbook, Worksheet, Cell } from 'exceljs'
+import type { Workbook, Worksheet, Cell, PaperSize } from 'exceljs'
 import { LOGO_PNG_BASE64 } from './assets/logo64'
 import { evaluate, parseRoas, parseTarget, validate, MAX_PRODUCTS, type Product } from './calc'
 
@@ -68,7 +68,7 @@ export async function buildWorkbook(products: Product[], roasRaw: string, target
   wb.title = 'Break-even ROAS Calculator'
   const ws = wb.addWorksheet('Calculator', {
     views: [{ state: 'frozen', ySplit: HEAD_ROW, xSplit: 2, showGridLines: false }],
-    pageSetup: { orientation: 'landscape', fitToPage: true, fitToWidth: 1, fitToHeight: 0 },
+    pageSetup: { paperSize: 1 as unknown as PaperSize /* US Letter */, orientation: 'landscape', fitToPage: true, fitToWidth: 1, fitToHeight: 0 },
   })
   WIDTHS.forEach((w, i) => (ws.getColumn(i + 1).width = w))
 

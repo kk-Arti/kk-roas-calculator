@@ -820,9 +820,11 @@ select:focus {
 }
 
 @media print {
+  /* US Letter. Zero page margin removes the browser's own header and footer
+     (local date, time and URL); the page padding lives on .print-only instead. */
   @page {
-    size: A4 landscape;
-    margin: 12mm;
+    size: letter landscape;
+    margin: 0;
   }
   :root {
     color-scheme: light;
@@ -838,6 +840,7 @@ select:focus {
   }
   .print-only {
     display: block;
+    padding: 0.5in;
   }
   .pv-head {
     display: flex;
