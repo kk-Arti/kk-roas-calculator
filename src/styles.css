@@ -107,6 +107,7 @@ select {
 }
 .brand {
   display: flex;
+  min-height: 44px;
   align-items: center;
   gap: 10px;
   color: var(--text);
@@ -121,7 +122,10 @@ select {
   font-weight: 600;
   font-size: 0.875rem;
   text-decoration: none;
-  padding: 8px 12px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 16px;
   border-radius: 999px;
   border: 1px solid var(--green);
   color: var(--text);
@@ -951,4 +955,36 @@ select:focus {
   color: var(--grey);
   font-size: 0.8125rem;
   max-width: 230px;
+}
+
+/* Phones: comfortable tap targets and readable chart labels */
+.footer-meta a {
+  display: inline-block;
+  padding: 10px 0;
+}
+.footer-cta .btn {
+  text-align: center;
+}
+@media (max-width: 480px) {
+  .section-head .toolbar {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+  .section-head .toolbar .btn {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+  .footer-cta .btn {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+  .chart .bar-value {
+    font-size: 21px;
+  }
+  .chart .bar-label {
+    font-size: 20px;
+  }
 }

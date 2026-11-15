@@ -275,10 +275,19 @@ function MixCta({ evals, roas }: { evals: Evaluation[]; roas: number | null }) {
       {showCount && (
         <p className="mix-count">
           At {roas.toFixed(2)}x,{' '}
-          <strong className={below > 0 ? 'neg' : 'pos'}>
-            {below} of {ok.length} {ok.length === 1 ? 'product' : 'products'}
-          </strong>{' '}
-          {below === 1 ? 'loses' : 'lose'} money on the first order.
+          {below === 0 ? (
+            <strong className="pos">
+              {ok.length === 1 ? 'your product covers its ad spend' : `all ${ok.length} products cover their ad spend`}
+            </strong>
+          ) : (
+            <>
+              <strong className="neg">
+                {below} of {ok.length} products
+              </strong>{' '}
+              {below === 1 ? 'loses' : 'lose'} money
+            </>
+          )}{' '}
+          on the first order.
         </p>
       )}
       <div className="mix-body">
