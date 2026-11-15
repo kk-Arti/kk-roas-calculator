@@ -207,6 +207,13 @@ export default function App() {
                 </button>
               </div>
             </div>
+            <p className="help-note">
+              Stuck on a number or not sure where to find it?{' '}
+              <a href={LINKEDIN_MESSAGE} target="_blank" rel="noopener noreferrer">
+                Message me
+              </a>{' '}
+              and I'll help.
+            </p>
 
             <div className="cards">
               {state.products.map((p, i) => (

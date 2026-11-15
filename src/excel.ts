@@ -124,6 +124,9 @@ export async function buildWorkbook(products: Product[], roasRaw: string, target
   ws.getCell('E7').font = { name: FONT, size: 9, italic: true, color: { argb: C.grey } }
   ws.getCell('B8').value = 'Green cells with blue text are inputs. Everything else calculates. Type percents as 20%.'
   ws.getCell('B8').font = { name: FONT, size: 9, color: { argb: C.grey } }
+  const help = ws.getCell('I8')
+  help.value = { text: 'Stuck on a number or not sure where to find it? Message me and I will help.', hyperlink: MESSAGE_URL }
+  help.font = { name: FONT, size: 10, bold: true, color: { argb: C.greenText }, underline: true }
 
   // Table header
   const hr = ws.getRow(HEAD_ROW)

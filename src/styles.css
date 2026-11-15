@@ -998,3 +998,15 @@ select:focus {
 .ptable .name-cell .text-input {
   width: 100%;
 }
+
+.help-note {
+  margin: 0 0 14px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text);
+}
+.help-note a {
+  color: var(--green-bright);
+  display: inline-block;
+  padding: 8px 0;
+}
