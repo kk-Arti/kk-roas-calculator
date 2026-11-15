@@ -201,6 +201,8 @@ export default function App() {
                 {state.products.length} of {MAX_PRODUCTS} products
               </span>
             </div>
+
+            <MixCta evals={evals} roas={roas} />
           </section>
 
           <DiscountBlock
@@ -217,6 +219,39 @@ export default function App() {
 
       <PrintView state={state} evals={evals} roas={roas} />
     </>
+  )
+}
+
+// Under the products: a status count, not a total. Break-even ROAS does not add up across
+// products; the account-wide number depends on how ad spend splits, which we invite people to ask about.
+function MixCta({ evals, roas }: { evals: Evaluation[]; roas: number | null }) {
+  const ok = evals.filter((e): e is Extract<Evaluation, { kind: 'ok' }> => e.kind === 'ok')
+  const below = ok.filter((e) => !e.result.above).length
+  const showCount = roas !== null && ok.length > 0
+  return (
+    <div className="mix-cta">
+      {showCount && (
+        <p className="mix-count">
+          At {roas.toFixed(2)}x,{' '}
+          <strong className={below > 0 ? 'neg' : 'pos'}>
+            {below} of {ok.length} {ok.length === 1 ? 'product' : 'products'}
+          </strong>{' '}
+          {below === 1 ? 'loses' : 'lose'} money on the first order.
+        </p>
+      )}
+      <div className="mix-body">
+        <div>
+          <p className="mix-title">Need one ROAS target for the whole account?</p>
+          <p className="muted">
+            There is no simple total here. It depends on how your ad spend splits across these products. Send me your
+            mix and I will work it out with you.
+          </p>
+        </div>
+        <a className="btn primary" href={LINKEDIN_MESSAGE} target="_blank" rel="noopener noreferrer">
+          Message me
+        </a>
+      </div>
+    </div>
   )
 }
 
