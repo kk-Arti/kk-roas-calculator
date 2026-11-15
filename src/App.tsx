@@ -19,6 +19,9 @@ import { blankProduct, load, newId, save, type State } from './storage'
 import { DiscountChart } from './DiscountChart'
 
 const LINKEDIN = 'https://www.linkedin.com/in/artem-kalachev/'
+// Opens a new LinkedIn message to Artem (same link as the Message button on his profile)
+const LINKEDIN_MESSAGE =
+  'https://www.linkedin.com/messaging/compose/?profileUrn=urn%3Ali%3Afsd_profile%3AACoAADxgieABwE7747g9IZ4BfTrBChanNiZJwr4'
 const SITE = 'https://kkmedia.io'
 const LOGO = `${import.meta.env.BASE_URL}kk-logo-96.png`
 
@@ -98,7 +101,7 @@ export default function App() {
               <img src={LOGO} alt="" width="36" height="36" />
               <span>K&amp;K Media</span>
             </a>
-            <a className="header-link" href={LINKEDIN} target="_blank" rel="noopener noreferrer">
+            <a className="header-link" href={LINKEDIN_MESSAGE} target="_blank" rel="noopener noreferrer">
               Message me
             </a>
           </div>
@@ -627,13 +630,19 @@ function Footer() {
       <div className="wrap footer-inner">
         <div className="footer-cta">
           <p className="footer-title">Want a second pair of eyes on your numbers?</p>
-          <a className="btn primary big" href={LINKEDIN} target="_blank" rel="noopener noreferrer">
+          <a className="btn primary big" href={LINKEDIN_MESSAGE} target="_blank" rel="noopener noreferrer">
             Message me on LinkedIn
           </a>
         </div>
         <div className="footer-meta">
           <img src={LOGO} alt="" width="28" height="28" />
-          <span>Built by Artem Kalachev, K&amp;K Media</span>
+          <span>
+            Built by{' '}
+            <a href={LINKEDIN} target="_blank" rel="noopener noreferrer">
+              Artem Kalachev
+            </a>
+            , K&amp;K Media
+          </span>
           <a href={SITE} target="_blank" rel="noopener noreferrer">
             kkmedia.io
           </a>
