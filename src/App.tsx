@@ -9,7 +9,7 @@ import {
   fmtPct,
   fmtRoas,
   parseRoas,
-  toCsv,
+  parseTarget,
   validate,
   type Evaluation,
   type FieldKey,
@@ -25,7 +25,7 @@ const LINKEDIN_MESSAGE =
 const SITE = 'https://kkmedia.io'
 const LOGO = `${import.meta.env.BASE_URL}kk-logo-96.png`
 
-const INPUT_FIELDS: FieldKey[] = ['price', 'cogs', 'shipping', 'fees', 'other', 'discount', 'target']
+const INPUT_FIELDS: FieldKey[] = ['price', 'cogs', 'shipping', 'fees', 'other', 'discount']
 
 const SHORT: Record<FieldKey, { title: string; unit: string }> = {
   name: { title: 'Product', unit: '' },
@@ -46,10 +46,16 @@ export default function App() {
 
   const roasParsed = parseRoas(state.roas)
   const roas = roasParsed.value
-  const evals = useMemo(() => state.products.map((p) => evaluate(p, roas)), [state.products, roas])
+  const targetParsed = parseTarget(state.target)
+  const withTarget = useMemo(
+    () => state.products.map((p) => ({ ...p, target: targetParsed.value === null ? '' : state.target })),
+    [state.products, state.target, targetParsed.value],
+  )
+  const evals = useMemo(() => withTarget.map((p) => evaluate(p, roas)), [withTarget, roas])
   const hasExamples = state.products.some((p) => p.example)
 
   const setRoas = (roas: string) => setState((s) => ({ ...s, roas }))
+  const setTarget = (target: string) => setState((s) => ({ ...s, target }))
   const update = (id: string, key: FieldKey, value: string) =>
     setState((s) => ({
       ...s,
@@ -78,16 +84,23 @@ export default function App() {
       return { ...s, products: products.length ? products : [blankProduct()], selectedId: null }
     })
 
-  const downloadCsv = () => {
-    const blob = new Blob([toCsv(state.products, state.roas)], { type: 'text/csv;charset=utf-8' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = 'break-even-roas.csv'
-    document.body.appendChild(a)
-    a.click()
-    a.remove()
-    setTimeout(() => URL.revokeObjectURL(url), 1000)
+  const [xlsxBusy, setXlsxBusy] = useState(false)
+  const downloadExcel = async () => {
+    setXlsxBusy(true)
+    try {
+      const { buildWorkbook } = await import('./excel')
+      const blob = await buildWorkbook(state.products, state.roas, state.target)
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = 'KK Break-even ROAS Calculator.xlsx'
+      document.body.appendChild(a)
+      a.click()
+      a.remove()
+      setTimeout(() => URL.revokeObjectURL(url), 1000)
+    } finally {
+      setXlsxBusy(false)
+    }
   }
 
   const full = state.products.length >= MAX_PRODUCTS
@@ -143,6 +156,35 @@ export default function App() {
               </p>
             )}
             </div>
+            <div className="roas-main">
+              <label htmlFor="target" className="roas-label">
+                Target margin after ads
+              </label>
+              <div className="roas-row">
+                <input
+                  id="target"
+                  className={`roas-input${targetParsed.error ? ' invalid' : ''}`}
+                  inputMode="decimal"
+                  autoComplete="off"
+                  value={state.target}
+                  onChange={(e) => setTarget(e.target.value)}
+                  aria-invalid={!!targetParsed.error}
+                  aria-describedby="target-hint target-err"
+                />
+                <span className="roas-x" aria-hidden="true">
+                  %
+                </span>
+              </div>
+              {targetParsed.error ? (
+                <p id="target-err" className="field-error" role="alert">
+                  {targetParsed.error}
+                </p>
+              ) : (
+                <p id="target-hint" className="target-hint">
+                  What each order should leave after ad spend to pay opex and profit. Drives Target ROAS.
+                </p>
+              )}
+            </div>
             <p id="roas-hint" className="hint">
               Use ROAS on first orders from new customers. Blended ROAS includes repeat buyers and makes the first order
               look better than it is.
@@ -158,8 +200,8 @@ export default function App() {
                     Clear examples
                   </button>
                 )}
-                <button type="button" className="btn ghost" onClick={downloadCsv}>
-                  Download CSV
+                <button type="button" className="btn ghost" onClick={downloadExcel} disabled={xlsxBusy}>
+                  {xlsxBusy ? 'Preparing file…' : 'Download Excel'}
                 </button>
                 <button type="button" className="btn ghost" onClick={() => window.print()}>
                   Print / Save as PDF
@@ -468,7 +510,9 @@ function ProductTable({
               Margin
             </th>
             <th scope="col">Break-even ROAS</th>
-            <th scope="col">Target ROAS</th>
+            <th scope="col">
+              Target ROAS<span className="unit">at your target margin</span>
+            </th>
             <th scope="col">
               Max CPA<span className="unit">at break-even</span>
             </th>
@@ -737,7 +781,7 @@ function PrintView({ state, evals, roas }: { state: State; evals: Evaluation[]; 
                 <td>{pct(p.fees)}</td>
                 <td>{usd(p.other)}</td>
                 <td>{pct(p.discount)}</td>
-                <td>{pct(p.target)}</td>
+                <td>{pct(state.target)}</td>
                 {r ? (
                   <>
                     <td>{fmtPct(r.margin)}</td>

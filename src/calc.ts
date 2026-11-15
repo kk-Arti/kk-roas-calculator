@@ -76,6 +76,14 @@ export function parseRoas(raw: string): { value: number | null; error?: string }
   return { value: v }
 }
 
+export function parseTarget(raw: string): { value: number | null; error?: string } {
+  const v = parseNum(raw)
+  if (v === null) return { value: null, error: 'Enter a target, for example 10 for 10%' }
+  if (Number.isNaN(v)) return { value: null, error: 'Use a number, for example 10 for 10%' }
+  if (v < PCT_MIN || v > PCT_MAX) return { value: null, error: `Enter a percent from ${PCT_MIN} to ${PCT_MAX}` }
+  return { value: v / 100 }
+}
+
 export interface Inputs {
   price: number
   cogs: number

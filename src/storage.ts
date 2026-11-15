@@ -4,6 +4,8 @@ const KEY = 'kk-roas-calculator:v1'
 
 export interface State {
   roas: string
+  /** Target contribution after ads, whole percent, applies to every product */
+  target: string
   products: Product[]
   selectedId: string | null
 }
@@ -25,6 +27,7 @@ export const blankProduct = (): Product => ({
 
 export const exampleState = (): State => ({
   roas: '2.2',
+  target: '10',
   products: EXAMPLES.map((e) => ({ ...e, id: newId() })),
   selectedId: null,
 })
@@ -35,6 +38,7 @@ export function load(): State {
     if (!raw) return exampleState()
     const s = JSON.parse(raw) as State
     if (typeof s.roas !== 'string' || !Array.isArray(s.products)) return exampleState()
+    if (typeof s.target !== 'string') s.target = s.products.find((p) => p.target)?.target ?? '10'
     return s
   } catch {
     return exampleState()

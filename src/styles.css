@@ -779,9 +779,9 @@ select:focus {
   }
   .roas-card {
     display: grid;
-    grid-template-columns: auto minmax(0, 560px);
+    grid-template-columns: auto auto minmax(0, 1fr);
     gap: 40px;
-    align-items: center;
+    align-items: start;
   }
   .roas-card .hint {
     margin: 0;
@@ -934,3 +934,18 @@ select:focus {
   .mix-body .btn { text-align: center; }
 }
 @media print { .mix-cta { display: none; } }
+
+.roas-card .roas-main + .roas-main {
+  margin-top: 18px;
+}
+@media (min-width: 1100px) {
+  .roas-card .roas-main + .roas-main {
+    margin-top: 0;
+  }
+}
+.target-hint {
+  margin: 8px 0 0;
+  color: var(--grey);
+  font-size: 0.8125rem;
+  max-width: 230px;
+}
