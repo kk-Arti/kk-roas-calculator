@@ -248,7 +248,7 @@ export async function buildWorkbook(products: Product[], roasRaw: string, target
   cta.value = { text: 'Send me your mix', hyperlink: MESSAGE_URL }
   cta.font = { name: FONT, size: 11, bold: true, color: { argb: C.greenText }, underline: true }
 
-  ws.headerFooter.oddFooter = '&L&8K&K Media, Break-even ROAS Calculator&R&8kkmedia.io'
+  ws.headerFooter.oddFooter = '&L&8K&K Media, Break-even ROAS Calculator&R&8linkedin.com/in/artem-kalachev'
 
   const buf = await wb.xlsx.writeBuffer()
   return new Blob([buf], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })

@@ -22,7 +22,6 @@ const LINKEDIN = 'https://www.linkedin.com/in/artem-kalachev/'
 // Opens a new LinkedIn message to Artem (same link as the Message button on his profile)
 const LINKEDIN_MESSAGE =
   'https://www.linkedin.com/messaging/compose/?profileUrn=urn%3Ali%3Afsd_profile%3AACoAADxgieABwE7747g9IZ4BfTrBChanNiZJwr4'
-const SITE = 'https://kkmedia.io'
 const LOGO = `${import.meta.env.BASE_URL}kk-logo-96.png`
 
 const INPUT_FIELDS: FieldKey[] = ['price', 'cogs', 'shipping', 'fees', 'other', 'discount']
@@ -110,10 +109,10 @@ export default function App() {
       <div className="screen">
         <header className="site-header">
           <div className="wrap header-row">
-            <a className="brand" href={SITE} target="_blank" rel="noopener noreferrer">
+            <div className="brand">
               <img src={LOGO} alt="" width="36" height="36" />
               <span>K&amp;K Media</span>
-            </a>
+            </div>
             <a className="header-link" href={LINKEDIN_MESSAGE} target="_blank" rel="noopener noreferrer">
               Message me
             </a>
@@ -731,9 +730,6 @@ function Footer() {
             </a>
             , K&amp;K Media
           </span>
-          <a href={SITE} target="_blank" rel="noopener noreferrer">
-            kkmedia.io
-          </a>
         </div>
         <p className="privacy small muted">No tracking, no cookies. Your numbers stay in this browser.</p>
       </div>
@@ -822,7 +818,7 @@ function PrintView({ state, evals, roas }: { state: State; evals: Evaluation[]; 
           by cohort payback days.
         </li>
       </ul>
-      <p className="pv-foot">Built by Artem Kalachev, K&amp;K Media · kkmedia.io · linkedin.com/in/artem-kalachev</p>
+      <p className="pv-foot">Built by Artem Kalachev, K&amp;K Media. linkedin.com/in/artem-kalachev</p>
     </div>
   )
 }
