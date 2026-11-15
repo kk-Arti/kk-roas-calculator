@@ -500,7 +500,7 @@ function ProductTable({
       <table className="ptable">
         <thead>
           <tr className="group-row">
-            <th colSpan={8} scope="colgroup">
+            <th colSpan={1 + INPUT_FIELDS.length} scope="colgroup">
               Your inputs
             </th>
             <th colSpan={5} scope="colgroup" className="res-start">
